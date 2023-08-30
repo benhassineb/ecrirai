@@ -1,19 +1,35 @@
+'use client'
+import React, { useState, useEffect } from "react";
 import Editor from "@/ui/editor";
-import Github from "@/ui/icons/github";
-import Menu from "./menu";
+import generatedLetter from "@/ui/editor/default-content copy";
 
 export default function Page() {
+  const [content, setContent] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchContent();
+  }, []);
+
+  const fetchContent = async () => {
+    try {
+      const response = await fetch("https://jsonplaceholder.typicode.com/posts/1");
+      const data = await response.json();
+      setContent(generatedLetter);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching content:", error);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="flex min-h-screen flex-col items-center sm:px-5 sm:pt-[calc(20vh)]">
-      <a
-        href="/github"
-        target="_blank"
-        className="absolute bottom-5 left-5 z-10 max-h-fit rounded-lg p-2 transition-colors duration-200 hover:bg-stone-100 sm:bottom-auto sm:top-5"
-      >
-        <Github />
-      </a>
-      <Menu />
-      <Editor />
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <Editor initialContent={content} />
+      )}
     </div>
   );
 }

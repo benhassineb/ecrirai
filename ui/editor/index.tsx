@@ -14,10 +14,16 @@ import { EditorBubbleMenu } from "./components/bubble-menu";
 import { getPrevText } from "@/lib/editor";
 import { ImageResizer } from "./components/image-resizer";
 
-export default function Editor() {
+import generatedLetter from "./default-content copy";
+
+export interface MyEditorProps {
+  initialContent: any | null
+}
+
+export default function Editor({initialContent} : MyEditorProps) {
   const [content, setContent] = useLocalStorage(
     "content",
-    DEFAULT_EDITOR_CONTENT,
+    initialContent ,
   );
   const [saveStatus, setSaveStatus] = useState("Saved");
 
@@ -26,7 +32,7 @@ export default function Editor() {
   const debouncedUpdates = useDebouncedCallback(async ({ editor }) => {
     const json = editor.getJSON();
     setSaveStatus("Saving...");
-    setContent(json);
+    // setContent(json);
     // Simulate a delay in saving.
     setTimeout(() => {
       setSaveStatus("Saved");

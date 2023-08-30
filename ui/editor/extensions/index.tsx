@@ -10,8 +10,11 @@ import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import { Markdown } from "tiptap-markdown";
 import Highlight from "@tiptap/extension-highlight";
+
 import SlashCommand from "./slash-command";
 import { InputRule } from "@tiptap/core";
+import TextAlign from "@tiptap/extension-text-align";
+
 import UploadImagesPlugin from "@/ui/editor/plugins/upload-images";
 import UpdatedImage from "./updated-image";
 
@@ -22,6 +25,7 @@ const CustomImage = TiptapImage.extend({
 });
 
 export const TiptapExtensions = [
+  
   StarterKit.configure({
     bulletList: {
       HTMLAttributes: {
@@ -62,6 +66,7 @@ export const TiptapExtensions = [
       width: 4,
     },
     gapcursor: false,
+    
   }),
   // patch to fix horizontal rule bug: https://github.com/ueberdosis/tiptap/pull/3859#issuecomment-1536799740
   HorizontalRule.extend({
@@ -136,5 +141,10 @@ export const TiptapExtensions = [
   Markdown.configure({
     html: false,
     transformCopiedText: true,
+  }),
+  TextAlign.configure({
+    types: ['heading', 'paragraph'],
+    alignments: ['left', 'center', 'right', 'justify'],
+    defaultAlignment: 'center',
   }),
 ];
